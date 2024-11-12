@@ -13,8 +13,8 @@ class GameOfLife(QMainWindow):
         self.ui.setupUi(self)  # Set up the UI
         self.setWindowTitle("Game of Life")
         
-        # Set a modern color palette for the application
-        self.set_dark_palette()
+        # Set a white theme palette for the application
+        self.set_white_palette()
 
         # Initialize grid parameters
         self.rows = 20
@@ -52,34 +52,35 @@ class GameOfLife(QMainWindow):
         # Add items to the combo box with new patterns
         self.ui.comboBox.addItems(["Glider", "Blinker", "Toad", "Beacon", "Pulsar", "Glider Gun"])
 
-    def set_dark_palette(self):
-        """Sets a dark theme palette for the application."""
-        dark_palette = QPalette()
+    def set_white_palette(self):
+        """Sets a white theme palette for the application."""
+        white_palette = QPalette()
 
-        # Basic dark theme colors
-        dark_palette.setColor(QPalette.Window, QColor(53, 53, 53))
-        dark_palette.setColor(QPalette.WindowText, QColor(255, 255, 255))
-        dark_palette.setColor(QPalette.Base, QColor(25, 25, 25))
-        dark_palette.setColor(QPalette.AlternateBase, QColor(53, 53, 53))
-        dark_palette.setColor(QPalette.ToolTipBase, QColor(255, 255, 255))
-        dark_palette.setColor(QPalette.ToolTipText, QColor(0, 0, 0))
-        dark_palette.setColor(QPalette.Text, QColor(255, 255, 255))
-        dark_palette.setColor(QPalette.Button, QColor(53, 53, 53))
-        dark_palette.setColor(QPalette.ButtonText, QColor(255, 255, 255))
-        dark_palette.setColor(QPalette.BrightText, QColor(255, 0, 0))
-        dark_palette.setColor(QPalette.Highlight, QColor(42, 130, 218))
-        dark_palette.setColor(QPalette.HighlightedText, QColor(0, 0, 0))
+        # Basic white theme colors
+        white_palette.setColor(QPalette.Window, QColor(255, 255, 255))
+        white_palette.setColor(QPalette.WindowText, QColor(0, 0, 0))
+        white_palette.setColor(QPalette.Base, QColor(255, 255, 255))
+        white_palette.setColor(QPalette.AlternateBase, QColor(240, 240, 240))
+        white_palette.setColor(QPalette.ToolTipBase, QColor(255, 255, 255))
+        white_palette.setColor(QPalette.ToolTipText, QColor(0, 0, 0))
+        white_palette.setColor(QPalette.Text, QColor(0, 0, 0))
+        white_palette.setColor(QPalette.Button, QColor(240, 240, 240))
+        white_palette.setColor(QPalette.ButtonText, QColor(0, 0, 0))
+        # white_palette.setColor(QPalette.BrightText, QColor(255, 0, 0))
+        # white_palette.setColor(QPalette.Highlight, QColor(42, 130, 218))
+        # white_palette.setColor(QPalette.HighlightedText, QColor(0, 0, 0))
 
         # Set the palette for the application
-        QApplication.setPalette(dark_palette)
+        QApplication.setPalette(white_palette)
 
     def setup_grid(self):
         """Sets up the grid buttons with a modern style."""
         for i in range(self.rows):
             for j in range(self.cols):
                 cell_button = self.cells[i][j]
-                cell_button.setFixedSize(20, 20)
-                cell_button.setStyleSheet("background-color: #2d2d2d; border: 1px solid #444;")  # Dark cell background
+                cell_button.setFixedSize(30, 30)
+                cell_button.setStyleSheet("background-color: #f0f0f0; border: 1px solid #ccc;")  # Light cell background
+                # cell_button.setFont(QFont("Arial", 8))
                 cell_button.clicked.connect(partial(self.toggle_cell, i, j))
                 self.grid_layout.addWidget(cell_button, i, j)
 
@@ -91,10 +92,37 @@ class GameOfLife(QMainWindow):
     def update_button_style(self, x, y):
         """Updates the button color based on the cell state."""
         if self.grid[x][y] == 1:
-            self.cells[x][y].setStyleSheet("background-color: #21c362; border: 1px solid #444;")  # Alive cell in green
+            self.cells[x][y].setStyleSheet("background-color: #21c362; border: 2px solid #ccc; border-radius: 5px;")  # Alive cell in green
         else:
-            self.cells[x][y].setStyleSheet("background-color: #2d2d2d; border: 1px solid #444;")  # Dead cell in dark color
+            self.cells[x][y].setStyleSheet("background-color: #f0f0f0; border: 2px solid #ccc; border-radius: 5px;")  # Dead cell in light color
+            
+            
+    def create_control_panel(self):
+        """Creates the control panel for starting, stopping, and selecting patterns."""
+        control_panel = QGroupBox("Controls")
+        control_layout = QVBoxLayout()
 
+        self.ui.Start.clicked.connect(self.start_game)
+        self.ui.Stop.clicked.connect(self.stop_game)
+        self.ui.Clear.clicked.connect(self.clear_grid)
+        self.ui.AddPattern.clicked.connect(self.add_pattern)
+
+        # Add control buttons
+        control_layout.addWidget(self.ui.Start)
+        control_layout.addWidget(self.ui.Stop)
+        control_layout.addWidget(self.ui.Clear)
+        control_layout.addWidget(self.ui.AddPattern)
+
+        # Add pattern selection dropdown
+        control_layout.addWidget(QLabel("Choose Pattern:"))
+        control_layout.addWidget(self.ui.comboBox)
+
+        # Speed slider with label
+        control_layout.addWidget(QLabel("Speed:"))
+        control_layout.addWidget(self.ui.SpeedSlider)
+
+        control_panel.setLayout(control_layout)
+        return control_panel
 
     def start_game(self):
         """Starts the game by starting the timer."""
@@ -186,34 +214,31 @@ class GameOfLife(QMainWindow):
         new_grid = [[0] * self.cols for _ in range(self.rows)]
         for i in range(self.rows):
             for j in range(self.cols):
-                alive_neighbors = self.count_alive_neighbors(i, j)
-                if self.grid[i][j] == 1:  # Alive cell
-                    if alive_neighbors in (2, 3):
-                        new_grid[i][j] = 1  # Stay alive
-                else:  # Dead cell
-                    if alive_neighbors == 3:
-                        new_grid[i][j] = 1  # Become alive
+                live_neighbors = self.count_live_neighbors(i, j)
+                if self.grid[i][j] == 1 and live_neighbors in [2, 3]:
+                    new_grid[i][j] = 1
+                elif self.grid[i][j] == 0 and live_neighbors == 3:
+                    new_grid[i][j] = 1
         self.grid = new_grid
         self.update_buttons()
 
-    def count_alive_neighbors(self, x, y):
-        """Counts the number of alive neighbors for a given cell."""
-        count = 0
-        for i in range(max(0, x - 1), min(self.rows, x + 2)):
-            for j in range(max(0, y - 1), min(self.cols, y + 2)):
-                if (i == x and j == y):
-                    continue
-                count += self.grid[i][j]
-        return count
+    def count_live_neighbors(self, x, y):
+        """Counts live neighbors of a cell."""
+        live_neighbors = 0
+        for i in range(x-1, x+2):
+            for j in range(y-1, y+2):
+                if 0 <= i < self.rows and 0 <= j < self.cols and (i != x or j != y):
+                    live_neighbors += self.grid[i][j]
+        return live_neighbors
 
     def update_buttons(self):
-        """Updates the colors of the buttons based on the current grid state."""
+        """Updates the button styles based on the current grid state."""
         for i in range(self.rows):
             for j in range(self.cols):
                 self.update_button_style(i, j)
 
     def update_speed(self):
-        """Updates the speed of the timer based on the slider value."""
+        """Updates the speed of the game based on slider value."""
         self.timer.setInterval(self.ui.SpeedSlider.value())
 
     # Evolutionary Algorithm
