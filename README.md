@@ -1,4 +1,4 @@
-## Conwal's Game of Life with the addition of Evolutionary Computation
+## Conway's Game of Life with the addition of Evolutionary Computation
 
 
 <img src="final_img.png">
