@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>985</width>
-    <height>779</height>
+    <width>1610</width>
+    <height>781</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -116,6 +116,57 @@
      <height>28</height>
     </rect>
    </property>
+  </widget>
+  <widget class="QFrame" name="PlotFrame">
+   <property name="geometry">
+    <rect>
+     <x>990</x>
+     <y>-20</y>
+     <width>611</width>
+     <height>451</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: none;</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+  </widget>
+  <widget class="QFrame" name="logger">
+   <property name="geometry">
+    <rect>
+     <x>990</x>
+     <y>440</y>
+     <width>611</width>
+     <height>291</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: none;</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QTextEdit" name="Logger_QText">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>611</width>
+      <height>291</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border: none;</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>

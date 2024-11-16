@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'designercDFApt.ui'
+## Form generated from reading UI file 'game_of_lifeyzsKxv.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.15
 ##
@@ -12,12 +12,11 @@ from PyQt5.QtCore import *  # type: ignore
 from PyQt5.QtGui import *  # type: ignore
 from PyQt5.QtWidgets import *  # type: ignore
 
-
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
-        Dialog.resize(985, 779)
+        Dialog.resize(1610, 781)
         self.GridFrame = QFrame(Dialog)
         self.GridFrame.setObjectName(u"GridFrame")
         self.GridFrame.setGeometry(QRect(0, 10, 981, 721))
@@ -45,6 +44,22 @@ class Ui_Dialog(object):
         self.comboBox = QComboBox(Dialog)
         self.comboBox.setObjectName(u"comboBox")
         self.comboBox.setGeometry(QRect(570, 740, 221, 28))
+        self.PlotFrame = QFrame(Dialog)
+        self.PlotFrame.setObjectName(u"PlotFrame")
+        self.PlotFrame.setGeometry(QRect(990, -20, 611, 451))
+        self.PlotFrame.setStyleSheet(u"border: none;")
+        self.PlotFrame.setFrameShape(QFrame.StyledPanel)
+        self.PlotFrame.setFrameShadow(QFrame.Raised)
+        self.logger = QFrame(Dialog)
+        self.logger.setObjectName(u"logger")
+        self.logger.setGeometry(QRect(990, 440, 611, 291))
+        self.logger.setStyleSheet(u"border: none;")
+        self.logger.setFrameShape(QFrame.StyledPanel)
+        self.logger.setFrameShadow(QFrame.Raised)
+        self.Logger_QText = QTextEdit(self.logger)
+        self.Logger_QText.setObjectName(u"Logger_QText")
+        self.Logger_QText.setGeometry(QRect(0, 0, 611, 291))
+        self.Logger_QText.setStyleSheet(u"border: none;")
 
         self.retranslateUi(Dialog)
 
